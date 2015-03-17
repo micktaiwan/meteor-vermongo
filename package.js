@@ -14,12 +14,16 @@ Package.onUse(function(api) {
   api.versionsFrom('WINDOWS-PREVIEW@0.3.0');
   api.addFiles('mickaelfm_vermongo.js');
   api.use('matb33:collection-hooks');
+  api.use('dburles:collection-helpers');
+
   api.export('Vermongo');
 });
 
 Package.onTest(function(api) {
   api.use('tinytest');
   api.use('mickaelfm:vermongo');
+  api.use('matb33:collection-hooks');
+  api.use('dburles:collection-helpers');
 
   api.addFiles('mickaelfm_vermongo-tests.js');
 });
