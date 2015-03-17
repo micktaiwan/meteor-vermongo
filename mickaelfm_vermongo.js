@@ -12,7 +12,7 @@ Vermongo.prototype.add = function (collection) {
   if(this.options['console']) console.log('[Vermongo] adding hooks for collection', name);
 
   // create a new collection if not already existing
-  var versions = new Meteor.Collection(name+'_version');
+  var versions = new Meteor.Collection(name+'.vermongo');
 
   // add the couple to the internal tracking variable
   this.collections.push({c: collection, v: versions});
@@ -42,7 +42,7 @@ Vermongo.prototype.add = function (collection) {
     var savedDoc = _.extend({}, doc); // shallow copy
     savedDoc.ref = doc._id;
     if(typeof(savedDoc._id) != 'undefined') delete savedDoc._id;
-    console.log(versions.insert(savedDoc)); // FIXME: why inserted 2 times ???
+    versions.insert(savedDoc);
 
     // adding 'modifiedAt'
     modifier.$set = modifier.$set || {};
@@ -54,3 +54,5 @@ Vermongo.prototype.add = function (collection) {
   if(this.options['console']) console.log('[Vermongo] collections count:', this.collections.length);
   return this;
 };
+
+
