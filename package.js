@@ -12,7 +12,8 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('WINDOWS-PREVIEW@0.3.0');
-  api.addFiles('mickaelfm_vermongo.js');
+  api.versionsFrom('METEOR@1.0.3.2');
+  api.addFiles('vermongo.js');
   api.use('matb33:collection-hooks');
   api.use('dburles:collection-helpers');
 
@@ -25,5 +26,5 @@ Package.onTest(function(api) {
   api.use('matb33:collection-hooks');
   api.use('dburles:collection-helpers');
 
-  api.addFiles('mickaelfm_vermongo-tests.js');
+  api.addFiles('vermongo-tests.js');
 });
