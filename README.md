@@ -1,9 +1,13 @@
 # Meteor Vermongo
 
-
 Implementing Vermongo:
 https://github.com/thiloplanz/v7files/wiki/Vermongo
 
+Github:
+https://github.com/micktaiwan/meteor-vermongo/
+
+Report bugs or suggestions:
+https://github.com/micktaiwan/meteor-vermongo/issues
 
 ## Usage
 
