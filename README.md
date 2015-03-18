@@ -12,7 +12,7 @@ https://github.com/micktaiwan/meteor-vermongo/issues
 ## Currently provides
 
 * versioning of collection objects
-* helper to access old version of document
+* helper to access old versions of documents
 * automatic timestamping
 
 ## Usage
