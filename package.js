@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mickaelfm:vermongo',
-  version: '0.0.1',
+  version: '0.0.2',
   // Brief, one-line summary of the package.
   summary: 'Add versions to your documents. Implementing vermongo.',
   // URL to the Git repository containing the source code for this package.
