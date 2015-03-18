@@ -9,6 +9,12 @@ https://github.com/micktaiwan/meteor-vermongo/
 Report bugs or suggestions:
 https://github.com/micktaiwan/meteor-vermongo/issues
 
+## Currently provides
+
+* versioning of collection objects
+* helper to access old version of document
+* automatic timestamping
+
 ## Usage
 
 
@@ -68,11 +74,6 @@ A new collection *"mycollection.vermongo"* will be created for each versioned co
 
 A collection helper *"versions"* is created to access old versions of the document.
 
-
-## Currently provides
-
-* versioning of collection objects
-* helper to access old version of document
 
 ## TODO
 
