@@ -1,5 +1,7 @@
-Vermongo = function (collection, options) {
-  var options = options || {};
+Vermongo = function (collection, op) {
+  console.log('[Vermongo]', collection._name, op);
+  var options = op || {};
+  options.userId =  options.userId || 'userId';
   var self = this;
 
   // Setting hooks for a collection
@@ -20,6 +22,8 @@ Vermongo = function (collection, options) {
         var now = Date.now();
         if(!doc.createdAt) doc.createdAt = now;
         if(!doc.modifiedAt) doc.modifiedAt = now;
+        if(!doc[options.userId]) doc[options.userId] = userId;
+        console.log(options.userId, doc[options.userId]);
       }
     });
 
@@ -35,21 +39,18 @@ Vermongo = function (collection, options) {
 
         // copy doc to versions collection
         var savedDoc = _.extend({}, doc); // shallow copy
-
-        //savedDoc._id = {_id: doc._id, version: doc._version}
-        // can not do this as Meteor requires document _id fields to be non-empty strings or ObjectIDs
-
         if(typeof(savedDoc._id) !== 'undefined') delete savedDoc._id;
         savedDoc.ref = doc._id;
 
         _versions_collection.insert(savedDoc);
       }
 
-      // adding 'modifiedAt'
-      modifier.$set = modifier.$set || {};
-      if(options['timestamps']) { modifier.$set.modifiedAt = now; }
       // incrementing version
       modifier.$set._version = doc._version + 1;
+
+      // updating 'modifiedAt'
+      modifier.$set = modifier.$set || {};
+      if(options['timestamps']) { modifier.$set.modifiedAt = now; }
     });
 
 
