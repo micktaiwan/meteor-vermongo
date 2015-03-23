@@ -11,16 +11,19 @@ https://github.com/micktaiwan/meteor-vermongo/issues
 
 ## Currently provides
 
-* versioning of collection objects
+* automatic versioning of collection documents
 * helper to access old versions of documents
-* automatic timestamping
+* option for automatic timestamping
+* option for automatic logging userId
+* option for ignoring some updated fields
+
 
 ## Usage
 
 
 ```javascript
     Requirements = new Meteor.Collection('requirements');
-    new Vermongo(Requirements, {timestamps: true});
+    new Vermongo(Requirements, {timestamps: true, userId: 'modifierId', ignoredFields: ['rank']});
 
     Template.requirements.onCreated(function() {
     
@@ -79,5 +82,5 @@ A collection helper *"versions"* is created to access old versions of the docume
 
 * Unit tests :)
 * document removal
-* log user on insert, update, remove
+* logging user on remove
 * undo helper
