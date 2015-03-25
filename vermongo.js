@@ -1,9 +1,9 @@
-Vermongo = function (collection, op) {
+Meteor.Collection.prototype.vermongo = function (op) {
+  var collection = this;
   console.log('[Vermongo]', collection._name, op);
   var options = op || {};
   options.userId = options.userId || false;
   options.ignoredFields = options.ignoredFields || [];
-  var self = this;
 
   // Setting hooks for a collection
   var add = function (collection) {
@@ -12,7 +12,7 @@ Vermongo = function (collection, op) {
     // create a new collection if not already existing
     var _versions_collection = new Meteor.Collection(name + '.vermongo');
 
-    /*  
+    /*
      * insert hook
      * */
     collection.before.insert(function (userId, doc) {
@@ -30,7 +30,7 @@ Vermongo = function (collection, op) {
 
     });
 
-    /*  
+    /*
      * update hook
      * */
     collection.before.update(function (userId, doc, fieldNames, modifier, hook_options) {
@@ -73,11 +73,11 @@ Vermongo = function (collection, op) {
 
     });
 
-    return self;
+    return collection;
   };
 
   if (typeof(collection) !== 'undefined' && collection !== null)
     add(collection);
 
-  return self;
+  return collection;
 };

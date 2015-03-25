@@ -6,6 +6,9 @@ https://github.com/thiloplanz/v7files/wiki/Vermongo
 Github:
 https://github.com/micktaiwan/meteor-vermongo/
 
+AtmosphereJS:
+https://atmospherejs.com/mickaelfm/vermongo
+
 Report bugs or suggestions:
 https://github.com/micktaiwan/meteor-vermongo/issues
 
@@ -22,11 +25,10 @@ https://github.com/micktaiwan/meteor-vermongo/issues
 
 
 ```javascript
-    Requirements = new Meteor.Collection('requirements');
-    new Vermongo(Requirements, {timestamps: true, userId: 'modifierId', ignoredFields: ['rank']});
+    Requirements = new Meteor.Collection('requirements').vermongo({timestamps: true, userId: 'modifierId', ignoredFields: ['rank']});
 
     Template.requirements.onCreated(function() {
-    
+
       var id = Requirements.insert({title: "new insert with default value"});
       Requirements.update({_id: id}, {$set:{title: "updated with new value !"}});
 
