@@ -14,10 +14,10 @@ https://github.com/micktaiwan/meteor-vermongo/issues
 
 ## Currently provides
 
-* automatic versioning of collection documents
+* automatic versioning of collection documents, including removal
 * helper to access old versions of documents
 * option for automatic timestamping
-* option for automatic logging userId
+* option for automatic userId logging
 * option for ignoring some updated fields
 
 
@@ -79,10 +79,9 @@ A new collection *"mycollection.vermongo"* will be created for each versioned co
 
 A collection helper *"versions"* is created to access old versions of the document.
 
+On document removal, the current version is saved into the vermongo collection, and then a dummy new version is added with a special flag (as a column "_deleted" that equals to true).
 
 ## TODO
 
 * Unit tests :)
-* document removal
-* logging user on remove
 * undo helper

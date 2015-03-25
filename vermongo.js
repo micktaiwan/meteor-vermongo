@@ -22,13 +22,24 @@ Meteor.Collection.prototype.vermongo = function (op) {
         var now = Date.now();
         if (!doc.createdAt) doc.createdAt = now;
         if (!doc.modifiedAt) doc.modifiedAt = now;
-
       }
 
       if (options.userId)
         doc[options.userId] = userId;
 
     });
+
+
+    var copyDoc = function (doc) {
+      if (Meteor.isServer) { // avoid duplicated insertion
+          // copy doc to versions collection
+        var savedDoc = _.extend({}, doc); // shallow copy
+        if (typeof(savedDoc._id) !== 'undefined') delete savedDoc._id;
+        savedDoc.ref = doc._id;
+
+        _versions_collection.insert(savedDoc);
+      }
+    };
 
     /*
      * update hook
@@ -37,19 +48,11 @@ Meteor.Collection.prototype.vermongo = function (op) {
       // do nothing if only ignored fields are modified
       if (options.ignoredFields.diff(fieldNames).equals([])) return;
 
-      var now = Date.now();
+      // in case of doc not already versionned
+      if (!doc._version) doc._version = 1;
 
-      if (Meteor.isServer) { // avoid duplicated insertion
-        // in case of doc not already versionned
-        if (!doc._version) doc._version = 1;
-
-        // copy doc to versions collection
-        var savedDoc = _.extend({}, doc); // shallow copy
-        if (typeof(savedDoc._id) !== 'undefined') delete savedDoc._id;
-        savedDoc.ref = doc._id;
-
-        _versions_collection.insert(savedDoc);
-      }
+      copyDoc(doc);
+      _versions_collection.insert(savedDoc);
 
       // incrementing version
       modifier.$set._version = doc._version + 1;
@@ -57,7 +60,7 @@ Meteor.Collection.prototype.vermongo = function (op) {
       // updating 'modifiedAt'
       modifier.$set = modifier.$set || {};
       if (options['timestamps']) {
-        modifier.$set.modifiedAt = now;
+        modifier.$set.modifiedAt = Date.now();
         modifier.$set[options.userId] = userId;
       }
       if (options.userId)
@@ -65,7 +68,30 @@ Meteor.Collection.prototype.vermongo = function (op) {
 
     });
 
+    /*
+     * remove hook
+     * */
+    collection.before.remove(function (userId, doc) {
 
+      // in case of doc not already versionned
+      if (!doc._version) doc._version = 1;
+
+      copyDoc(doc); // put last known version in vermongo collection
+
+      // put a dummy version with deleted flag
+      doc._version = doc._version + 1;
+      if (options['timestamps'])
+        doc.modifiedAt = Date.now();
+      if (options.userId)
+        doc[options.userId] = userId;
+      doc._deleted = true
+      copyDoc(doc);
+    });
+
+
+    /*
+     * collection helpers
+     * */
     collection.helpers({
       versions: function () {
         return _versions_collection.find({ref: this._id});
