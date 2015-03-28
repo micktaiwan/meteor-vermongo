@@ -52,7 +52,6 @@ Meteor.Collection.prototype.vermongo = function (op) {
       if (!doc._version) doc._version = 1;
 
       copyDoc(doc);
-      _versions_collection.insert(savedDoc);
 
       // incrementing version
       modifier.$set._version = doc._version + 1;
@@ -84,7 +83,7 @@ Meteor.Collection.prototype.vermongo = function (op) {
         doc.modifiedAt = Date.now();
       if (options.userId)
         doc[options.userId] = userId;
-      doc._deleted = true
+      doc._deleted = true;
       copyDoc(doc);
     });
 
@@ -95,7 +94,7 @@ Meteor.Collection.prototype.vermongo = function (op) {
     collection.helpers({
       versions: function () {
         return _versions_collection.find({ref: this._id});
-      },
+      }
 
     });
 
