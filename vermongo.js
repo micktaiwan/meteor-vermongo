@@ -54,10 +54,10 @@ Meteor.Collection.prototype.vermongo = function (op) {
       copyDoc(doc);
 
       // incrementing version
+      modifier.$set = modifier.$set || {};
       modifier.$set._version = doc._version + 1;
 
       // updating 'modifiedAt'
-      modifier.$set = modifier.$set || {};
       if (options['timestamps']) {
         modifier.$set.modifiedAt = Date.now();
         modifier.$set[options.userId] = userId;

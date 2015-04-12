@@ -1,12 +1,8 @@
 Package.describe({
   name: 'mickaelfm:vermongo',
-  version: '0.0.7',
-  // Brief, one-line summary of the package.
-  summary: 'Add versions to your documents. Implementing vermongo.',
-  // URL to the Git repository containing the source code for this package.
+  version: '0.0.8',
+  summary: 'Add versions to your documents. Implementing vermongo. Automatic versioning of collection documents, including removal. Helper to access old versions of documents. Automatic timestamping.',
   git: 'https://github.com/micktaiwan/meteor-vermongo.git',
-  // By default, Meteor will default to using README.md for documentation.
-  // To avoid submitting documentation, set this field to null.
   documentation: 'README.md'
 });
 
