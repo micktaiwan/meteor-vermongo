@@ -1,6 +1,6 @@
 Meteor.Collection.prototype.vermongo = function (op) {
   var collection = this;
-  console.log('[Vermongo]', collection._name, op);
+  //console.log('[Vermongo]', collection._name, op);
   var options = op || {};
   options.userId = options.userId || false;
   options.ignoredFields = options.ignoredFields || [];
@@ -19,7 +19,7 @@ Meteor.Collection.prototype.vermongo = function (op) {
       // add vermongo fields
       doc._version = 1;
       if (options['timestamps']) {
-        var now = Date.now();
+        var now = new Date();
         if (!doc.createdAt) doc.createdAt = now;
         if (!doc.modifiedAt) doc.modifiedAt = now;
       }
@@ -59,7 +59,7 @@ Meteor.Collection.prototype.vermongo = function (op) {
 
       // updating 'modifiedAt'
       if (options['timestamps']) {
-        modifier.$set.modifiedAt = Date.now();
+        modifier.$set.modifiedAt = new Date();
         modifier.$set[options.userId] = userId;
       }
       if (options.userId)
@@ -80,7 +80,7 @@ Meteor.Collection.prototype.vermongo = function (op) {
       // put a dummy version with deleted flag
       doc._version = doc._version + 1;
       if (options['timestamps'])
-        doc.modifiedAt = Date.now();
+        doc.modifiedAt = new Date();
       if (options.userId)
         doc[options.userId] = userId;
       doc._deleted = true;

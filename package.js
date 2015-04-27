@@ -1,7 +1,7 @@
 Package.describe({
   name: 'mickaelfm:vermongo',
-  version: '0.0.8',
-  summary: 'Add versions to your documents. Implementing vermongo. Automatic versioning of collection documents, including removal. Helper to access old versions of documents. Automatic timestamping.',
+  version: '0.0.9',
+  summary: 'Add versions to your documents. Implementing vermongo. Automatic versioning of collection documents',
   git: 'https://github.com/micktaiwan/meteor-vermongo.git',
   documentation: 'README.md'
 });
