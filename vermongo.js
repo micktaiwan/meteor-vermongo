@@ -46,7 +46,7 @@ Meteor.Collection.prototype.vermongo = function (op) {
      * */
     collection.before.update(function (userId, doc, fieldNames, modifier, hook_options) {
       // do nothing if only ignored fields are modified
-      if (options.ignoredFields.diff(fieldNames).equals([])) return;
+      if (fieldNames.diff(options.ignoredFields).equals([])) return;
 
       // in case of doc not already versionned
       if (!doc._version) doc._version = 1;
