@@ -1,3 +1,10 @@
+// [1,2,3,4,5,6].diff( [3,4,5] );  => [1, 2, 6]
+Array.prototype.diff = function(a) {
+  return this.filter(function(i) {
+    return a.indexOf(i) < 0;
+  });
+};
+
 Meteor.Collection.prototype.vermongo = function (op) {
   var collection = this;
   //console.log('[Vermongo]', collection._name, op);
