@@ -57,7 +57,7 @@ Meteor.Collection.prototype.vermongo = function (op) {
         if (!doc.modifiedAt) doc.modifiedAt = now;
       }
 
-      if (options.userId)
+      if (options.userId && userId)
         doc[options.userId] = userId;
 
     });
