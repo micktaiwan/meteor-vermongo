@@ -90,7 +90,6 @@ Meteor.Collection.prototype.vermongo = function(op) {
         offOnce = false;
         return;
       }
-      console.log('ooops');
       // do nothing if only ignored fields are modified
       if(fieldNames.diff(options.ignoredFields).equals([])) return;
 
