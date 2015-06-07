@@ -37,6 +37,7 @@ Meteor.Collection.prototype.vermongo = function(op) {
   var options = op || {};
   options.userId = options.userId || false;
   options.ignoredFields = options.ignoredFields || [];
+  var offOnce = false;
 
   // Setting hooks for a collection
   var add = function(collection) {
@@ -50,6 +51,11 @@ Meteor.Collection.prototype.vermongo = function(op) {
      * Beware that collection2 validation occurs *before* this callback
      * */
     collection.before.insert(function(userId, doc) {
+      // do nothing if special option is set
+      if(offOnce) {
+        offOnce = false;
+        return;
+      }
       // add vermongo fields
       doc._version = 1;
       if(options['timestamps']) {
@@ -79,6 +85,12 @@ Meteor.Collection.prototype.vermongo = function(op) {
      * update hook
      * */
     collection.before.update(function(userId, doc, fieldNames, modifier, hook_options) {
+      // do nothing if special option is set
+      if(offOnce) {
+        offOnce = false;
+        return;
+      }
+      console.log('ooops');
       // do nothing if only ignored fields are modified
       if(fieldNames.diff(options.ignoredFields).equals([])) return;
 
@@ -102,7 +114,11 @@ Meteor.Collection.prototype.vermongo = function(op) {
      * remove hook
      * */
     collection.before.remove(function(userId, doc) {
-
+      // do nothing if special option is set
+      if(offOnce) {
+        offOnce = false;
+        return;
+      }
       // in case of doc not already versionned
       if(!doc._version) doc._version = 1;
 
@@ -125,8 +141,11 @@ Meteor.Collection.prototype.vermongo = function(op) {
       versions: function() {
         return _versions_collection.find({ref: this._id});
       }
-
     });
+
+    collection.vermongoOffOnce = function() {
+      offOnce = true;
+    };
 
     return collection;
   };

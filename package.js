@@ -1,6 +1,6 @@
 Package.describe({
   name: 'mickaelfm:vermongo',
-  version: '1.0.4',
+  version: '1.1.0',
   summary: 'Add versions to your documents. Implementing vermongo. Automatic versioning of collection documents',
   git: 'https://github.com/micktaiwan/meteor-vermongo.git',
   documentation: 'README.md'
