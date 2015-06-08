@@ -138,7 +138,7 @@ Meteor.Collection.prototype.vermongo = function(op) {
      * */
     collection.helpers({
       versions: function() {
-        return _versions_collection.find({ref: this._id});
+        return _versions_collection.find({ref: this._id}, {sort: {_version: -1}});
       }
     });
 
