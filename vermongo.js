@@ -38,13 +38,14 @@ Meteor.Collection.prototype.vermongo = function(op) {
   options.userId = options.userId || false;
   options.ignoredFields = options.ignoredFields || [];
   var offOnce = false;
+  var _versions_collection = null;
 
   // Setting hooks for a collection
   var add = function(collection) {
     var name = collection._name;
 
     // create a new collection if not already existing
-    var _versions_collection = new Meteor.Collection(name + '.vermongo');
+    _versions_collection = new Meteor.Collection(name + '.vermongo');
 
     /*
      * insert hook
@@ -147,6 +148,10 @@ Meteor.Collection.prototype.vermongo = function(op) {
     };
 
     return collection;
+  };
+
+  this.getVersionCollection = function() {
+    return _versions_collection;
   };
 
   if(typeof(collection) !== 'undefined' && collection !== null)
