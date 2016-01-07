@@ -119,7 +119,7 @@ Meteor.Collection.prototype.vermongo = function(op) {
         offOnce = false;
         return;
       }
-      // in case of doc not already versionned
+      // in case of doc not already versioned
       if(!doc._version) doc._version = 1;
 
       copyDoc(doc); // put last known version in vermongo collection
