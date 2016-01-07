@@ -5,9 +5,9 @@ Array.prototype.diff = function(a) {
   });
 };
 
-// [1, 2, [3, 4]].equals([1, 2, [3, 2]]) === false;
-// attach the .equals method to Array's prototype to call it on any array
-Array.prototype.equals = function(array) {
+// [1, 2, [3, 4]].sameAs([1, 2, [3, 2]]) === false;
+// attach the .sameAs method to Array's prototype to call it on any array
+Array.prototype.sameAs = function(array) {
   // if the other array is a falsy value, return
   if(!array)
     return false;
@@ -20,7 +20,7 @@ Array.prototype.equals = function(array) {
     // Check if we have nested arrays
     if(this[i] instanceof Array && array[i] instanceof Array) {
       // recurse into the nested arrays
-      if(!this[i].equals(array[i]))
+      if(!this[i].sameAs(array[i]))
         return false;
     }
     else if(this[i] != array[i]) {
@@ -92,7 +92,7 @@ Meteor.Collection.prototype.vermongo = function(op) {
         return;
       }
       // do nothing if only ignored fields are modified
-      if(fieldNames.diff(options.ignoredFields).equals([])) return;
+      if(fieldNames.diff(options.ignoredFields).sameAs([])) return;
 
       // in case of doc not already versionned
       if(!doc._version) doc._version = 1;
