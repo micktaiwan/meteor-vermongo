@@ -36,6 +36,8 @@ Meteor.Collection.prototype.vermongo = function(op) {
   //console.log('[Vermongo]', collection._name, op);
   var options = op || {};
   options.userId = options.userId || false;
+  options.createdAt = options.createdAt || 'createdAt';
+  options.modifiedAt = options.modifiedAt || 'modifiedAt';
   options.ignoredFields = options.ignoredFields || [];
   var offOnce = false;
   var _versions_collection = null;
@@ -61,8 +63,8 @@ Meteor.Collection.prototype.vermongo = function(op) {
       doc._version = 1;
       if(options['timestamps']) {
         var now = new Date();
-        if(!doc.createdAt) doc.createdAt = now;
-        if(!doc.modifiedAt) doc.modifiedAt = now;
+        if(!doc[options.createdAt]) doc[options.createdAt] = now;
+        if(!doc[options.modifiedAt]) doc[options.modifiedAt] = now;
       }
 
       if(!doc[options.userId] && options.userId && userId)
@@ -104,7 +106,7 @@ Meteor.Collection.prototype.vermongo = function(op) {
       modifier.$set._version = doc._version + 1;
 
       if(options['timestamps'])
-        modifier.$set.modifiedAt = new Date();
+        modifier.$set[options.modifiedAt] = new Date();
       if(!doc[options.userId] && options.userId && userId)
         modifier.$set[options.userId] = userId;
 
@@ -127,7 +129,7 @@ Meteor.Collection.prototype.vermongo = function(op) {
       // put a dummy version with deleted flag
       doc._version = doc._version + 1;
       if(options['timestamps'])
-        doc.modifiedAt = new Date();
+        doc[options.modifiedAt] = new Date();
       if(!doc[options.userId] && options.userId && userId)
         doc[options.userId] = userId;
       doc._deleted = true;
