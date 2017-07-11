@@ -1,29 +1,26 @@
 // [1,2,3,4,5,6].diff( [3,4,5] );  => [1, 2, 6]
-Array.prototype.diff = function(a) {
-  return this.filter(function(i) {
-    return a.indexOf(i) < 0;
+var diff = function(a, b) {
+  return a.filter(function(i) {
+    return b.indexOf(i) < 0;
   });
 };
 
 // [1, 2, [3, 4]].sameAs([1, 2, [3, 2]]) === false;
 // attach the .sameAs method to Array's prototype to call it on any array
-Array.prototype.sameAs = function(array) {
+var sameAs = function(a, b) {
   // if the other array is a falsy value, return
-  if(!array)
-    return false;
+  if(!a || !b) return false;
 
   // compare lengths - can save a lot of time
-  if(this.length != array.length)
-    return false;
+  if(a.length !== b.length) return false;
 
-  for(var i = 0, l = this.length; i < l; i++) {
+  for(var i = 0, l = a.length; i < l; i++) {
     // Check if we have nested arrays
-    if(this[i] instanceof Array && array[i] instanceof Array) {
+    if(a[i] instanceof Array && b[i] instanceof Array) {
       // recurse into the nested arrays
-      if(!this[i].sameAs(array[i]))
-        return false;
+      if(!sameAs(a[i], b[i])) return false;
     }
-    else if(this[i] != array[i]) {
+    else if(a[i] !== b[i]) {
       // Warning - two different object instances will never be equal: {x:20} != {x:20}
       return false;
     }
@@ -94,7 +91,7 @@ Meteor.Collection.prototype.vermongo = function(op) {
         return;
       }
       // do nothing if only ignored fields are modified
-      if(fieldNames.diff(options.ignoredFields).sameAs([])) return;
+      if(sameAs(diff(fieldNames, options.ignoredFields), [])) return;
 
       // in case of doc not already versionned
       if(!doc._version) doc._version = 1;
