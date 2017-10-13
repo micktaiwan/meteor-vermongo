@@ -25,7 +25,7 @@ https://github.com/micktaiwan/meteor-vermongo/issues
 
 
 ```javascript
-    Requirements = new Meteor.Collection('requirements').vermongo({timestamps: true, userId: 'modifierId', ignoredFields: ['rank']});
+    Requirements = new Mongo.Collection('requirements').vermongo({timestamps: true, userId: 'modifierId', ignoredFields: ['rank']});
 
     Template.requirements.onCreated(function() {
 

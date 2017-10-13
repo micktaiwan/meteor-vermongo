@@ -1,5 +1,5 @@
 // [1,2,3,4,5,6].diff( [3,4,5] );  => [1, 2, 6]
-var diff = function(a, b) {
+const diff = function(a, b) {
   return a.filter(function(i) {
     return b.indexOf(i) < 0;
   });
@@ -7,14 +7,14 @@ var diff = function(a, b) {
 
 // [1, 2, [3, 4]].sameAs([1, 2, [3, 2]]) === false;
 // attach the .sameAs method to Array's prototype to call it on any array
-var sameAs = function(a, b) {
+const sameAs = function(a, b) {
   // if the other array is a falsy value, return
   if(!a || !b) return false;
 
   // compare lengths - can save a lot of time
   if(a.length !== b.length) return false;
 
-  for(var i = 0, l = a.length; i < l; i++) {
+  for(let i = 0, l = a.length; i < l; i++) {
     // Check if we have nested arrays
     if(a[i] instanceof Array && b[i] instanceof Array) {
       // recurse into the nested arrays
@@ -28,23 +28,23 @@ var sameAs = function(a, b) {
   return true;
 };
 
-Meteor.Collection.prototype.vermongo = function(op) {
-  var collection = this;
+Mongo.Collection.prototype.vermongo = function(op) {
+  const collection = this;
   //console.log('[Vermongo]', collection._name, op);
-  var options = op || {};
+  const options = op || {};
   options.userId = options.userId || false;
   options.createdAt = options.createdAt || 'createdAt';
   options.modifiedAt = options.modifiedAt || 'modifiedAt';
   options.ignoredFields = options.ignoredFields || [];
-  var offOnce = false;
-  var _versions_collection = null;
+  let offOnce = false;
+  let _versions_collection = null;
 
   // Setting hooks for a collection
-  var add = function(collection) {
-    var name = collection._name;
+  const add = function(collection) {
+    const name = collection._name;
 
     // create a new collection if not already existing
-    _versions_collection = new Meteor.Collection(name + '.vermongo');
+    _versions_collection = new Mongo.Collection(name + '.vermongo');
 
     /*
      * insert hook
@@ -59,7 +59,7 @@ Meteor.Collection.prototype.vermongo = function(op) {
       // add vermongo fields
       doc._version = 1;
       if(options['timestamps']) {
-        var now = new Date();
+        const now = new Date();
         if(!doc[options.createdAt]) doc[options.createdAt] = now;
         if(!doc[options.modifiedAt]) doc[options.modifiedAt] = now;
       }
@@ -70,10 +70,10 @@ Meteor.Collection.prototype.vermongo = function(op) {
     });
 
     // copy Doc in vermondo collection
-    var copyDoc = function(doc) {
+    const copyDoc = function(doc) {
       if(Meteor.isServer) { // avoid duplicated insertion
         // copy doc to versions collection
-        var savedDoc = Object.assign({}, doc); // shallow copy
+        const savedDoc = Object.assign({}, doc); // shallow copy
         if(typeof(savedDoc._id) !== 'undefined') delete savedDoc._id;
         savedDoc.ref = doc._id;
 
