@@ -29,8 +29,8 @@ https://github.com/micktaiwan/meteor-vermongo/issues
 
     Template.requirements.onCreated(function() {
 
-      var id = Requirements.insert({title: "new insert with default value"});
-      Requirements.update({_id: id}, {$set:{title: "updated with new value !"}});
+      var _id = Requirements.insert({title: "new insert with default value"});
+      Requirements.update({ _id }, {$set:{title: "updated with new value !"}});
 
     });
 
